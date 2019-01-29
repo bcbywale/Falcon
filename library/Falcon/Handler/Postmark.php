@@ -142,10 +142,13 @@ class Falcon_Handler_Postmark implements Falcon_Handler {
 			return;
 		}
 		file_put_contents('/tmp/postmark', $input);
+		
+		/*TODO: Verify this code?*/
+		
 		try {
 			$inbound = new \Postmark\Inbound($input);
 		}
-		catch (\Postmark\InboundException $e) {
+		catch (\Postmark\Exception $e) {
 			header('X-Fail: Postmark problem', true, 400);
 			echo $e->getMessage();
 			return;

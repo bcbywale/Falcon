@@ -54,7 +54,13 @@ class Falcon_Connector_bbPress {
 			'author' => bbp_get_topic_author_display_name( $topic_id ),
 			'id'     => $topic_id,
 		);
-		$this->handler->send_mail( $recipients, $subject, $text, $options );
+		
+		$falconMessage = new Falcon_Message; 
+		$falconMessage->set_subject($subject);
+		$falconMessage->set_text($text);
+		$falconMessage->set_options($options);
+		
+		$this->handler->send_mail( $recipients, $falconMessage );
 
 		do_action( 'bbp_post_notify_topic_subscribers', $topic_id, $recipients );
 
@@ -127,7 +133,13 @@ class Falcon_Connector_bbPress {
 			'id'     => $topic_id,
 			'author' => $reply_author_name,
 		);
-		$this->handler->send_mail( $user_ids, $subject, $text, $options );
+		
+		$falconMessage = new Falcon_Message;
+		$falconMessage->set_subject($subject);
+		$falconMessage->set_text($text);
+		$falconMessage->set_options($options);
+
+		$this->handler->send_mail( $user_ids, $falconMessage );
 
 		do_action( 'bbp_post_notify_subscribers', $reply_id, $topic_id, $user_ids );
 
